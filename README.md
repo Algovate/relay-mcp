@@ -2,11 +2,20 @@
 
 Universal OpenAPI ➜ MCP relay server with enterprise authentication.
 
+[![npm version](https://badge.fury.io/js/relay-mcp.svg)](https://badge.fury.io/js/relay-mcp)
+[![npm downloads](https://img.shields.io/npm/dm/relay-mcp.svg)](https://www.npmjs.com/package/relay-mcp)
+
 ## What is Relay?
 
 Relay converts any OpenAPI/Swagger specification into AI-callable MCP tools. It acts as a bridge between AI assistants and REST APIs, automatically generating tools from API documentation and executing real HTTP requests.
 
 **Main Function**: Transform any REST API into MCP tools that AI assistants can use directly.
+
+## Installation
+
+```bash
+npm install relay-mcp
+```
 
 ## Basic Usage
 
@@ -56,6 +65,12 @@ npm start
 
 - Getting started: `docs/QUICKSTART.md`
 - Changelog: `CHANGELOG.md`
+
+## Links
+
+- **NPM Package**: [relay-mcp](https://www.npmjs.com/package/relay-mcp)
+- **GitHub Repository**: [Algovate/relay-mcp](https://github.com/Algovate/relay-mcp)
+- **Documentation Site**: [algovate.github.io/relay-mcp](https://algovate.github.io/relay-mcp)
 
 ## License
 
