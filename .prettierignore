@@ -1,0 +1,25 @@
+# Build output
+dist/
+*.js
+*.d.ts
+*.map
+
+# Dependencies
+node_modules/
+
+# Lockfiles
+package-lock.json
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Git
+.git/

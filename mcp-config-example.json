@@ -1,0 +1,24 @@
+{
+  "mcpServers": {
+    "relay-petstore": {
+      "command": "node",
+      "args": ["/Users/rodin/Workspace/algovate/lab/relay/dist/index.js"],
+      "env": {
+        "SWAGGER_SOURCE": "url",
+        "SWAGGER_URL": "https://petstore.swagger.io/v2/swagger.json",
+        "AUTH_TYPE": "none"
+      }
+    },
+    "relay-custom-api": {
+      "command": "node",
+      "args": ["/Users/rodin/Workspace/algovate/lab/relay/dist/index.js"],
+      "env": {
+        "SWAGGER_SOURCE": "file",
+        "SWAGGER_FILE": "./specs/my-api.yaml",
+        "API_BASE_URL": "https://api.example.com",
+        "AUTH_TYPE": "bearer",
+        "AUTH_TOKEN": "your-token-here"
+      }
+    }
+  }
+}
