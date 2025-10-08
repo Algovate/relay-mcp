@@ -1,6 +1,6 @@
 {
   "name": "relay-mcp",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Universal OpenAPI to MCP relay server with enterprise authentication",
   "main": "dist/index.js",
   "type": "module",
