@@ -2,6 +2,8 @@ import { OpenAPIV3, OpenAPIV2 } from 'openapi-types';
 
 export type OpenAPIDocument = OpenAPIV3.Document | OpenAPIV2.Document;
 
+export type TransportType = 'stdio' | 'sse' | 'http';
+
 export interface Config {
   swaggerSource: 'file' | 'url';
   swaggerUrl?: string;
@@ -15,6 +17,10 @@ export interface Config {
   authUsername?: string;
   authPassword?: string;
   timeout?: number;
+  transport?: TransportType;
+  transportPort?: number;
+  transportHost?: string;
+  transportPath?: string;
 }
 
 export interface ParsedEndpoint {

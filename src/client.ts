@@ -136,8 +136,8 @@ export class APIClient {
 
     // Process request body
     if (endpoint.requestBody) {
-      const bodyParam = (params as Record<string, unknown>).body ||
-        (params as Record<string, unknown>).requestBody;
+      const bodyParam =
+        (params as Record<string, unknown>).body || (params as Record<string, unknown>).requestBody;
 
       if (endpoint.requestBody.required && !bodyParam) {
         throw new APIRequestError(

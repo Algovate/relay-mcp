@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 import { Server } from '@modelcontextprotocol/sdk/server/index.js';
-import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
@@ -17,7 +16,15 @@ import { AuthManager, createAuthConfig } from './auth.js';
 import { ParsedEndpoint } from './types.js';
 import { logger } from './logger.js';
 import { ConfigurationError } from './errors.js';
-import { SERVER_NAME, SERVER_VERSION } from './constants.js';
+import {
+  SERVER_NAME,
+  SERVER_VERSION,
+  DEFAULT_TRANSPORT,
+  DEFAULT_TRANSPORT_PORT,
+  DEFAULT_TRANSPORT_HOST,
+  DEFAULT_TRANSPORT_PATH,
+} from './constants.js';
+import { TransportManager } from './transport.js';
 
 class SwaggerMCPServer {
   private server: Server;
@@ -26,6 +33,7 @@ class SwaggerMCPServer {
   private apiClient: APIClient | null = null;
   private endpoints: ParsedEndpoint[] = [];
   private endpointMap: Map<string, ParsedEndpoint> = new Map();
+  private transportManager: TransportManager | null = null;
 
   constructor() {
     this.server = new Server(
@@ -172,21 +180,67 @@ class SwaggerMCPServer {
     }
   }
 
-  async run() {
-    const transport = new StdioServerTransport();
+  async run(config: any) {
+    const transportType = config.transport || DEFAULT_TRANSPORT;
+    const transportPort = config.transportPort || DEFAULT_TRANSPORT_PORT;
+    const transportHost = config.transportHost || DEFAULT_TRANSPORT_HOST;
+    const transportPath = config.transportPath || DEFAULT_TRANSPORT_PATH;
+
+    this.transportManager = new TransportManager({
+      type: transportType,
+      port: transportPort,
+      host: transportHost,
+      path: transportPath,
+    });
+
+    const transport = await this.transportManager.createTransport(this.server);
     await this.server.connect(transport);
-    logger.info(`${SERVER_NAME} running on stdio`);
+
+    if (transportType === 'stdio') {
+      logger.info(`${SERVER_NAME} running on stdio`);
+    } else {
+      logger.info(
+        `${SERVER_NAME} running on ${transportType} at ${transportHost}:${transportPort}${transportPath}`,
+      );
+    }
+  }
+
+  async close() {
+    if (this.transportManager) {
+      await this.transportManager.close();
+    }
   }
 }
 
 // Main entry point
 async function main() {
+  const server = new SwaggerMCPServer();
   try {
-    const server = new SwaggerMCPServer();
+    const config = loadConfig();
     await server.initialize();
-    await server.run();
+    await server.run(config);
+
+    // Handle graceful shutdown
+    const shutdown = async (signal: string) => {
+      logger.info(`Received ${signal}, shutting down gracefully...`);
+      try {
+        await server.close();
+        process.exit(0);
+      } catch (error: any) {
+        logger.error('Error during shutdown:', error);
+        process.exit(1);
+      }
+    };
+
+    process.on('SIGINT', () => shutdown('SIGINT'));
+    process.on('SIGTERM', () => shutdown('SIGTERM'));
   } catch (error: any) {
     logger.error('Fatal error during startup', error);
+    try {
+      await server.close();
+    } catch (_closeError) {
+      // Ignore close errors during startup failure
+    }
     process.exit(1);
   }
 }

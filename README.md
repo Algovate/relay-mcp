@@ -20,12 +20,14 @@ npm install relay-mcp
 ## Basic Usage
 
 1. **Install and build**:
+
 ```bash
 npm install
 npm run build
 ```
 
 2. **Configure** (create `.env` file):
+
 ```env
 SWAGGER_SOURCE=url
 SWAGGER_URL=https://petstore.swagger.io/v2/swagger.json
@@ -33,11 +35,13 @@ AUTH_TYPE=none
 ```
 
 3. **Run the server**:
+
 ```bash
 npm start
 ```
 
-4. **Add to MCP client** (e.g., Claude Desktop):
+4. **Add to MCP client** (e.g., Claude Desktop for stdio):
+
 ```json
 {
   "mcpServers": {
@@ -47,12 +51,25 @@ npm start
       "env": {
         "SWAGGER_SOURCE": "url",
         "SWAGGER_URL": "https://petstore.swagger.io/v2/swagger.json",
-        "AUTH_TYPE": "none"
+        "AUTH_TYPE": "none",
+        "TRANSPORT": "stdio"
       }
     }
   }
 }
 ```
+
+**Or run as a standalone server with SSE/HTTP**:
+
+```bash
+# For SSE transport
+TRANSPORT=sse TRANSPORT_PORT=3000 npm start
+
+# For HTTP transport
+TRANSPORT=http TRANSPORT_PORT=3000 npm start
+```
+
+Then configure your MCP client to connect to `http://localhost:3000/mcp`.
 
 ## Features
 
@@ -60,11 +77,14 @@ npm start
 - Real HTTP execution with interceptors and structured logging
 - Auth: API Key (header/query), Bearer, Basic
 - OpenAPI 2.0 and 3.x support
+- Multiple transport modes: stdio, SSE (Server-Sent Events), HTTP
 
 ## Documentation
 
-- Getting started: `docs/QUICKSTART.md`
-- Changelog: `CHANGELOG.md`
+- 📚 [Documentation Hub](docs/README.md) - Complete documentation index
+- 🚀 [Quick Start Guide](docs/QUICKSTART.md) - Get up and running quickly
+- 🔧 [Setup Instructions](docs/SETUP.md) - Detailed configuration
+- 📋 [Changelog](CHANGELOG.md) - Version history and updates
 
 ## Links
 

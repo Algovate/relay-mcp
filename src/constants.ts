@@ -4,13 +4,17 @@
 
 // Server information
 export const SERVER_NAME = 'relay-mcp';
-export const SERVER_VERSION = '1.0.0';
+export const SERVER_VERSION = '1.1.0';
 
 // Default configuration values
 export const DEFAULT_TIMEOUT = 30000;
 export const DEFAULT_LOG_LEVEL = 'info';
 export const DEFAULT_SWAGGER_SOURCE = 'url';
 export const DEFAULT_AUTH_TYPE = 'none';
+export const DEFAULT_TRANSPORT = 'stdio';
+export const DEFAULT_TRANSPORT_PORT = 3000;
+export const DEFAULT_TRANSPORT_HOST = '0.0.0.0';
+export const DEFAULT_TRANSPORT_PATH = '/mcp';
 
 // Auth defaults
 export const DEFAULT_API_KEY_HEADER = 'X-API-Key';

@@ -27,6 +27,10 @@ const ConfigSchema = z
     authToken: z.string().optional(),
     authUsername: z.string().optional(),
     authPassword: z.string().optional(),
+    transport: z.enum(['stdio', 'sse', 'http']).optional(),
+    transportPort: z.number().positive().int().optional(),
+    transportHost: z.string().optional(),
+    transportPath: z.string().optional(),
   })
   .refine(
     (data) => {
@@ -76,6 +80,12 @@ export function loadConfig(): Config {
     authToken: process.env.AUTH_TOKEN,
     authUsername: process.env.AUTH_USERNAME,
     authPassword: process.env.AUTH_PASSWORD,
+    transport: process.env.TRANSPORT as 'stdio' | 'sse' | 'http' | undefined,
+    transportPort: process.env.TRANSPORT_PORT
+      ? parseInt(process.env.TRANSPORT_PORT, 10)
+      : undefined,
+    transportHost: process.env.TRANSPORT_HOST,
+    transportPath: process.env.TRANSPORT_PATH,
   };
 
   try {
