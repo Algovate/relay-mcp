@@ -1,8 +1,3 @@
----
-noteId: "2b8353e0a43811f0b4396fdb67b0c4c2"
-tags: []
----
-
 # Relay-MCP Documentation
 
 Welcome to the relay-mcp documentation! This directory contains guides for using the relay-mcp server.
